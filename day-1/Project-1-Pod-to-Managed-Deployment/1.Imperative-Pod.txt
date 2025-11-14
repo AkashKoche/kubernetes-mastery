@@ -1,0 +1,9 @@
+kubectl run my-nginx-pod --image=nginx:1.25-alpine
+
+kubectl get pods -o wide -w
+
+kubectl describe pod my-nginx-pod
+
+kubectl delete pod my-nginx-pod
+
+kubectl get pods

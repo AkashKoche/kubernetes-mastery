@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}.backend
+  labels:
+    {{- include "my-microservice-app.labels" . | nindent 4 }}
+    component: backend
+  spec:
+    replicas: {{ .Values.backend.replicasCount }}
+    selector:
+      matchLabels:
+        {{- include "my-microservice-app.selectorLabels" . | nindent 6 }}
+        component: backend
+    template:
+      metadata:
+        labels:
+          {{- include "my-microservice=app.selectorLabels" . | nindent 12 }}
+          component: backend
+      spec:
+        containers:
+          - name: server
+            image: "{{ .Value.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+            ports:
+              - containerPort: 8080
+              env:
+              - name: APP_ENVIRONMENT
+                value: {{ .Value.backend.config.environment | quote }}

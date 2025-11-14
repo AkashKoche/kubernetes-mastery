@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-pod
+spec:
+  volumes:
+    - name: shared-logs
+      emptyDir: {}
+  containers:
+    - name: app-container
+      image: alpine
+      command: ["/bin/sh"]
+      args: ["-c", "while true; do echo \"$(date): Hello from the app container!\" >> /var/log/app.txt; sleep 5; done"]
+      volumeMounts:
+        - name: share-logs
+          mountPath: /var/log
+    - name: sidecar-container
+      image: busybox
+      command: ["/bin/sh"]
+      args: ["-c", "tail -f /var/log/app.txt"]
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /var/log

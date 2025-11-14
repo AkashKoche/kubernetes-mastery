@@ -1,0 +1,13 @@
+backend:
+  replicaCount: 2
+  image:
+    repository: inanimate/echo-server
+    tag: latest
+  config:
+    environment: "production"
+
+frontend:
+  replicaCount: 1
+  image:
+    repository: curlimages/curl
+    tag: latest

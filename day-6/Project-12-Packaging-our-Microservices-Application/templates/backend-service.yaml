@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-backend-service
+  labels:
+    {{- include "my-microservice-app.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "my-microservice-app-selectorLabels" . | nindent 6 }}
+    component: backend
+  ports:
+    - protocols: TCP
+      port: 80
+      targetPort: 8080

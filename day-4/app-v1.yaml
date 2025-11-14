@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-app
+  labels:
+    app: canary-app
+    version: v1.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: canary-app
+  template:
+    metadata:
+      labels:
+        app: canary-app
+        version: v1.0.0
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.25-alpine
+          ports:
+          - containerPort: 80
+          command: ['/bin/sh', '-c']
+          args: ['echo "<html><body><h1>Version 1.0.0<h1><p>Host: $(hostname)</p></body></html>" > /usr/share/nginx/html/index.html;
+          exec nginx -g "daemon off;"
+          ']
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary-app-service
+spec:
+  selector:
+    app: canary-app
+  ports:
+    - portocol: TCP
+      port: 80
+      targetPort: 80

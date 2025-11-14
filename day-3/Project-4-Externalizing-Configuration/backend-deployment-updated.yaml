@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api
+spec:
+  replicas: 2
+  selector:
+    matchLables:
+      app: backend-api
+  template:
+    metadata:
+      labels:
+        app: backend-api
+    spec:
+      containers:
+        - name: server
+          image: inanimate/echo-server
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: app.environment
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: database.password
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+        volumes:
+        - name: config-volume
+          configMap:
+            name: app-config

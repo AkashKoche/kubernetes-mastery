@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: my-instance
+  namespace: monitoring
+spec:
+  serviceAccountName: prometheus-operated
+  resources:
+    requestes:
+      memory: 400Mi
+  enableAdminAPI: false
+  serviceMonitorSelector: {}
+  podMonitorSelector: {}
