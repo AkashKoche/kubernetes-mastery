@@ -10,11 +10,13 @@ kubectl top nodes
 
 kubectl top pods -A
 
+
 # Define Requests and Limits
 
 kubectl apply -f resource-demo.yaml
 
 watch kubectl top pods -l app=resource-demo
+
 
 # Test a Limit Breach
 
