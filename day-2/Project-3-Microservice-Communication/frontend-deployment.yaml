@@ -16,4 +16,4 @@ spec:
         - name: web
           image: curlimage/curl
           command: ["/bin/sh"]
-          args: ["-c", "while true; do echo \"Frontend pod $(hostname) called Backend: $(curl -s http://backend-service)\; sleep 10; don"]
+          args: ["-c", "while true; do echo \"Frontend pod $(hostname) called Backend: $(curl -s http://backend-service)\"; sleep 10; done"]
